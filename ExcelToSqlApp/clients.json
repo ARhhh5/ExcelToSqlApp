@@ -1,0 +1,30 @@
+[
+  {
+    "ClientName": "Local Development",
+    "Server": "localhost",
+    "Database": "master",
+    "User": "sa",
+    "Password": "YourStrong!Passw0rd"
+  },
+  {
+    "ClientName": "ABC Manufacturing Co., Ltd.",
+    "Server": "192.168.1.10",
+    "Database": "ABC_ERP",
+    "User": "erp_reader",
+    "Password": "abc@1234"
+  },
+  {
+    "ClientName": "Siam Trading Co., Ltd.",
+    "Server": "192.168.1.20\\SQLEXPRESS",
+    "Database": "SIAM_ERP",
+    "User": "sa",
+    "Password": "siam@5678"
+  },
+  {
+    "ClientName": "Thai Steel Industry",
+    "Server": "tsi-sql01,1433",
+    "Database": "TSI_ERP",
+    "User": "import_user",
+    "Password": "tsi#2026"
+  }
+]
