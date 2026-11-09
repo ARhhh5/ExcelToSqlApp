@@ -51,10 +51,17 @@ partial class MainForm
         txtSearch = new TextBox();
         lblTableCount = new Label();
         lblTablesTitle = new Label();
+        pnlRight = new Panel();
+        pnlTabBar = new Panel();
+        btnTabTables = new Button();
+        btnTabImport = new Button();
+        importView = new Controls.ImportView();
         pnlHeader.SuspendLayout();
         statusStrip.SuspendLayout();
         tlpMain.SuspendLayout();
         pnlConnection.SuspendLayout();
+        pnlRight.SuspendLayout();
+        pnlTabBar.SuspendLayout();
         pnlTables.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)dgvTables).BeginInit();
         pnlTablesHeader.SuspendLayout();
@@ -68,7 +75,7 @@ partial class MainForm
         pnlHeader.Dock = DockStyle.Top;
         pnlHeader.Location = new Point(0, 0);
         pnlHeader.Name = "pnlHeader";
-        pnlHeader.Size = new Size(1064, 78);
+        pnlHeader.Size = new Size(1320, 78);
         pnlHeader.TabIndex = 0;
         //
         // lblSubtitle
@@ -79,7 +86,7 @@ partial class MainForm
         lblSubtitle.Name = "lblSubtitle";
         lblSubtitle.Size = new Size(300, 19);
         lblSubtitle.TabIndex = 1;
-        lblSubtitle.Text = "เลือกลูกค้า เชื่อมต่อฐานข้อมูล และดูรายชื่อตารางทั้งหมด";
+        lblSubtitle.Text = "เชื่อมต่อฐานข้อมูลลูกค้า ดูรายชื่อตาราง และนำเข้าข้อมูลจากไฟล์ Excel";
         //
         // lblTitle
         //
@@ -96,10 +103,10 @@ partial class MainForm
         //
         statusStrip.BackColor = Color.White;
         statusStrip.Items.AddRange(new ToolStripItem[] { lblStatus });
-        statusStrip.Location = new Point(0, 658);
+        statusStrip.Location = new Point(0, 794);
         statusStrip.Name = "statusStrip";
         statusStrip.Padding = new Padding(16, 0, 16, 0);
-        statusStrip.Size = new Size(1064, 26);
+        statusStrip.Size = new Size(1320, 26);
         statusStrip.SizingGrip = false;
         statusStrip.TabIndex = 2;
         //
@@ -116,14 +123,14 @@ partial class MainForm
         tlpMain.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 350F));
         tlpMain.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         tlpMain.Controls.Add(pnlConnection, 0, 0);
-        tlpMain.Controls.Add(pnlTables, 1, 0);
+        tlpMain.Controls.Add(pnlRight, 1, 0);
         tlpMain.Dock = DockStyle.Fill;
         tlpMain.Location = new Point(0, 78);
         tlpMain.Name = "tlpMain";
         tlpMain.Padding = new Padding(20);
         tlpMain.RowCount = 1;
         tlpMain.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-        tlpMain.Size = new Size(1064, 580);
+        tlpMain.Size = new Size(1320, 716);
         tlpMain.TabIndex = 1;
         //
         // pnlConnection
@@ -147,7 +154,7 @@ partial class MainForm
         pnlConnection.Location = new Point(20, 20);
         pnlConnection.Margin = new Padding(0, 0, 10, 0);
         pnlConnection.Name = "pnlConnection";
-        pnlConnection.Size = new Size(340, 540);
+        pnlConnection.Size = new Size(340, 676);
         pnlConnection.TabIndex = 0;
         pnlConnection.Paint += Card_Paint;
         //
@@ -318,17 +325,68 @@ partial class MainForm
         btnClear.UseVisualStyleBackColor = false;
         btnClear.Click += btnClear_Click;
         //
+        // pnlRight
+        //
+        pnlRight.Controls.Add(pnlTables);
+        pnlRight.Controls.Add(importView);
+        pnlRight.Controls.Add(pnlTabBar);
+        pnlRight.Dock = DockStyle.Fill;
+        pnlRight.Location = new Point(380, 20);
+        pnlRight.Margin = new Padding(10, 0, 0, 0);
+        pnlRight.Name = "pnlRight";
+        pnlRight.Size = new Size(920, 676);
+        pnlRight.TabIndex = 1;
+        //
+        // pnlTabBar
+        //
+        pnlTabBar.Controls.Add(btnTabImport);
+        pnlTabBar.Controls.Add(btnTabTables);
+        pnlTabBar.Dock = DockStyle.Top;
+        pnlTabBar.Location = new Point(0, 0);
+        pnlTabBar.Name = "pnlTabBar";
+        pnlTabBar.Size = new Size(920, 50);
+        pnlTabBar.TabIndex = 0;
+        //
+        // btnTabTables
+        //
+        btnTabTables.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+        btnTabTables.Location = new Point(0, 0);
+        btnTabTables.Name = "btnTabTables";
+        btnTabTables.Size = new Size(200, 38);
+        btnTabTables.TabIndex = 0;
+        btnTabTables.Text = "🗂  ตารางในฐานข้อมูล";
+        btnTabTables.Click += btnTabTables_Click;
+        //
+        // btnTabImport
+        //
+        btnTabImport.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+        btnTabImport.Location = new Point(208, 0);
+        btnTabImport.Name = "btnTabImport";
+        btnTabImport.Size = new Size(200, 38);
+        btnTabImport.TabIndex = 1;
+        btnTabImport.Text = "📥  Import Excel";
+        btnTabImport.Click += btnTabImport_Click;
+        //
+        // importView
+        //
+        importView.Dock = DockStyle.Fill;
+        importView.Location = new Point(0, 50);
+        importView.Name = "importView";
+        importView.Size = new Size(920, 626);
+        importView.TabIndex = 2;
+        importView.Visible = false;
+        //
         // pnlTables
         //
         pnlTables.BackColor = Color.White;
         pnlTables.Controls.Add(dgvTables);
         pnlTables.Controls.Add(pnlTablesHeader);
         pnlTables.Dock = DockStyle.Fill;
-        pnlTables.Location = new Point(380, 20);
-        pnlTables.Margin = new Padding(10, 0, 0, 0);
+        pnlTables.Location = new Point(0, 50);
+        pnlTables.Margin = new Padding(0);
         pnlTables.Name = "pnlTables";
         pnlTables.Padding = new Padding(20, 18, 20, 20);
-        pnlTables.Size = new Size(664, 540);
+        pnlTables.Size = new Size(920, 626);
         pnlTables.TabIndex = 1;
         pnlTables.Paint += Card_Paint;
         //
@@ -454,12 +512,12 @@ partial class MainForm
         AutoScaleDimensions = new SizeF(7F, 17F);
         AutoScaleMode = AutoScaleMode.Font;
         BackColor = Color.FromArgb(241, 245, 249);
-        ClientSize = new Size(1064, 684);
+        ClientSize = new Size(1320, 820);
         Controls.Add(tlpMain);
         Controls.Add(statusStrip);
         Controls.Add(pnlHeader);
         Font = new Font("Segoe UI", 9.75F);
-        MinimumSize = new Size(900, 640);
+        MinimumSize = new Size(1180, 760);
         Name = "MainForm";
         StartPosition = FormStartPosition.CenterScreen;
         Text = "Import Excel to SQL";
@@ -471,6 +529,8 @@ partial class MainForm
         tlpMain.ResumeLayout(false);
         pnlConnection.ResumeLayout(false);
         pnlConnection.PerformLayout();
+        pnlRight.ResumeLayout(false);
+        pnlTabBar.ResumeLayout(false);
         pnlTables.ResumeLayout(false);
         ((System.ComponentModel.ISupportInitialize)dgvTables).EndInit();
         pnlTablesHeader.ResumeLayout(false);
@@ -502,6 +562,11 @@ partial class MainForm
     private CheckBox chkShowPassword;
     private Button btnRetrieve;
     private Button btnClear;
+    private Panel pnlRight;
+    private Panel pnlTabBar;
+    private Button btnTabTables;
+    private Button btnTabImport;
+    private Controls.ImportView importView;
     private Panel pnlTables;
     private Panel pnlTablesHeader;
     private Label lblTablesTitle;

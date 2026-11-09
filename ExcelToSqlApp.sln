@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelToSqlApp", "ExcelToSqlApp\ExcelToSqlApp.csproj", "{23E52745-69C0-4AD2-9AA9-DDEC93E2E906}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelToSqlApp.Tests", "ExcelToSqlApp.Tests\ExcelToSqlApp.Tests.csproj", "{A44B825A-1390-4CEB-99A9-D131D3F74F17}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{23E52745-69C0-4AD2-9AA9-DDEC93E2E906}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23E52745-69C0-4AD2-9AA9-DDEC93E2E906}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23E52745-69C0-4AD2-9AA9-DDEC93E2E906}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A44B825A-1390-4CEB-99A9-D131D3F74F17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A44B825A-1390-4CEB-99A9-D131D3F74F17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A44B825A-1390-4CEB-99A9-D131D3F74F17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A44B825A-1390-4CEB-99A9-D131D3F74F17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
