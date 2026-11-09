@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <!-- Short local DB calls; per-call test cancellation tokens add noise without benefit. -->
+    <NoWarn>$(NoWarn);xUnit1051</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <PropertyGroup>
+  </PropertyGroup>
+
+  <!--
+    The app targets net8.0-windows (WinForms), which cannot run on Linux CI runners.
+    The UI-free Models/Services are compiled in directly so the tests run on any OS.
+  -->
+  <ItemGroup>
+    <Compile Include="..\ExcelToSqlApp\Models\*.cs" Link="App\Models\%(Filename)%(Extension)" />
+    <Compile Include="..\ExcelToSqlApp\Services\*.cs" Link="App\Services\%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.105.1" />
+    <PackageReference Include="ExcelDataReader" Version="3.9.0" />
+    <PackageReference Include="ExcelDataReader.DataSet" Version="3.9.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="4.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="xunit.v3" Version="4.0.3" />
+  </ItemGroup>
+
+</Project>

@@ -9,6 +9,7 @@
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
     <RootNamespace>ExcelToSqlApp</RootNamespace>
     <AssemblyTitle>Import Excel to SQL</AssemblyTitle>
+    <Version>1.1.0</Version>
     <!-- Allows building on non-Windows machines (CI); the app itself runs on Windows. -->
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
@@ -20,6 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="ExcelDataReader" Version="3.9.0" />
+    <PackageReference Include="ExcelDataReader.DataSet" Version="3.9.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.1" />
   </ItemGroup>
 

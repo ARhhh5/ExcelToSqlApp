@@ -15,6 +15,42 @@ public partial class MainForm : Form
     public MainForm()
     {
         InitializeComponent();
+
+        importView.BusyChanged += (_, busy) => SetBusy(busy, importing: true);
+        FormClosing += MainForm_FormClosing;
+        SelectTab(showImport: false);
+    }
+
+    private void btnTabTables_Click(object? sender, EventArgs e) => SelectTab(showImport: false);
+
+    private void btnTabImport_Click(object? sender, EventArgs e) => SelectTab(showImport: true);
+
+    private void SelectTab(bool showImport)
+    {
+        pnlTables.Visible = !showImport;
+        importView.Visible = showImport;
+
+        foreach (var (button, active) in new[] { (btnTabTables, !showImport), (btnTabImport, showImport) })
+        {
+            if (active)
+            {
+                UiTheme.StylePrimaryButton(button, UiTheme.Accent, UiTheme.AccentHover);
+            }
+            else
+            {
+                UiTheme.StyleSecondaryButton(button);
+            }
+        }
+    }
+
+    private void MainForm_FormClosing(object? sender, FormClosingEventArgs e)
+    {
+        if (importView.IsBusy && MessageBox.Show(this,
+                "กำลัง Import ข้อมูลอยู่ หากปิดโปรแกรมตอนนี้ ระบบจะยกเลิก (Rollback) ข้อมูลที่นำเข้าทั้งหมด\n\nต้องการปิดโปรแกรมหรือไม่?",
+                "ยืนยันการปิดโปรแกรม", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) != DialogResult.Yes)
+        {
+            e.Cancel = true;
+        }
     }
 
     private void MainForm_Load(object? sender, EventArgs e)
@@ -93,7 +129,8 @@ public partial class MainForm : Form
 
             txtSearch.Clear();
             ApplyFilter();
-            SetStatus($"เชื่อมต่อสำเร็จ — พบ {_tables.Count:N0} ตารางในฐานข้อมูล {database}");
+            importView.SetConnection(connectionString, _tables);
+            SetStatus($"เชื่อมต่อสำเร็จ — พบ {_tables.Count:N0} ตารางในฐานข้อมูล {database} · ไปที่แท็บ Import Excel เพื่อนำเข้าข้อมูล");
 
             if (_tables.Count == 0)
             {
@@ -135,6 +172,7 @@ public partial class MainForm : Form
         chkShowPassword.Checked = false;
         txtSearch.Clear();
         ResetTables();
+        importView.ResetAll();
 
         SetStatus("ล้างข้อมูลเรียบร้อย");
         cboClient.Focus();
@@ -205,6 +243,7 @@ public partial class MainForm : Form
         _tables = [];
         dgvTables.Rows.Clear();
         UpdateTableCount(0);
+        importView.ClearConnection();
     }
 
     private void UpdateTableCount(int shown)
@@ -223,13 +262,17 @@ public partial class MainForm : Form
         }
     }
 
-    private void SetBusy(bool busy)
+    private void SetBusy(bool busy, bool importing = false)
     {
-        UseWaitCursor = busy;
+        // The import view shows its own wait cursor and button text.
+        if (!importing)
+        {
+            UseWaitCursor = busy;
+            btnRetrieve.Text = busy ? "กำลังเชื่อมต่อ..." : "Retrieve Table";
+        }
         btnRetrieve.Enabled = !busy;
         btnClear.Enabled = !busy;
         cboClient.Enabled = !busy;
-        btnRetrieve.Text = busy ? "กำลังเชื่อมต่อ..." : "Retrieve Table";
     }
 
     private void SetStatus(string message) => lblStatus.Text = message;
