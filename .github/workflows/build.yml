@@ -1,0 +1,44 @@
+name: Build Windows EXE
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    # WinForms can be cross-compiled on Linux thanks to EnableWindowsTargeting in the csproj.
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Publish single-file EXE (win-x64)
+        run: >
+          dotnet publish ExcelToSqlApp/ExcelToSqlApp.csproj
+          -c Release
+          -r win-x64
+          --self-contained true
+          -p:PublishSingleFile=true
+          -p:IncludeNativeLibrariesForSelfExtract=true
+          -o publish
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: ExcelToSqlApp-win-x64
+          # clients.json must sit next to the .exe at runtime.
+          path: |
+            publish/ExcelToSqlApp.exe
+            publish/clients.json
+          if-no-files-found: error
+          retention-days: 30
